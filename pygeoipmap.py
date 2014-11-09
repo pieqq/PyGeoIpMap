@@ -2,9 +2,14 @@
 # coding: utf-8
 
 from __future__ import print_function, unicode_literals, with_statement
-import argparse, requests, json, numpy, csv
-from mpl_toolkits.basemap import Basemap
+import argparse
+import requests
+import json
+import numpy
+import csv
 import matplotlib.pyplot as plt
+from mpl_toolkits.basemap import Basemap
+
 
 def get_ip(ip_file):
     """
@@ -16,24 +21,32 @@ def get_ip(ip_file):
             ip_list.append(line.strip())
     return ip_list
 
+
 def get_lat_lon(ip_list=[], lats=[], lons=[]):
     """
-    This function connects to the FreeGeoIP web service to get info from a list of IP addresses.
+    This function connects to the FreeGeoIP web service to get info from
+    a list of IP addresses.
     Returns two lists (latitude and longitude).
     """
     print("Processing {} IPs...".format(len(ip_list)))
     for ip in ip_list:
         r = requests.get("https://freegeoip.net/json/"+ip)
         json_response = json.loads(r.content.decode('utf-8'))
-        print("{}, {}, {}, {}, {}".format(json_response['ip'], json_response['city'], json_response['country_name'], json_response['latitude'], json_response['longitude']))
-        if (json_response['latitude'] is not None) & (json_response['longitude'] is not None):
+        print("{}, {}, {}, {}, {}".format(json_response['ip'],
+                                          json_response['city'],
+                                          json_response['country_name'],
+                                          json_response['latitude'],
+                                          json_response['longitude']))
+        if json_response['latitude'] and json_response['longitude']:
             lats.append(json_response['latitude'])
             lons.append(json_response['longitude'])
     return lats, lons
 
+
 def get_lat_lon_from_csv(csv_file, lats=[], lons=[]):
     """
-    Retrieves the last two rows of a CSV formatted file to use as latitude and longitude.
+    Retrieves the last two rows of a CSV formatted file to use as latitude
+    and longitude.
     Returns two lists (latitudes and longitudes).
 
     Example CSV file:
@@ -49,18 +62,20 @@ def get_lat_lon_from_csv(csv_file, lats=[], lons=[]):
             lons.append(row[-1])
     return lats, lons
 
+
 def generate_map(output, lats=[], lons=[]):
     """
-    Using Basemap and the matplotlib toolkit, this function generates a map and puts a red dot
-    at the location of every IP addresses found in the list.
+    Using Basemap and the matplotlib toolkit, this function generates a map and
+    puts a red dot at the location of every IP addresses found in the list.
     The map is then saved in the file specified in `output`.
     """
     print("Generating map and saving it to {}".format(output))
     m = Basemap(projection='cyl', resolution='l')
     m.bluemarble()
-    x, y = m(lons,lats)
+    x, y = m(lons, lats)
     m.scatter(x, y, s=1, color='#ff0000', marker='o', alpha=0.3)
     plt.savefig(output, dpi=300, bbox_inches='tight')
+
 
 def main():
     parser = argparse.ArgumentParser(description='Visualize community on a map.')
@@ -74,8 +89,8 @@ def main():
 
     if args.format == 'ip':
         ip_list = get_ip(args.input)
-        lats, lons = get_lat_lon(ip_list) 
-    elif args.format == 'csv':    
+        lats, lons = get_lat_lon(ip_list)
+    elif args.format == 'csv':
         lats, lons = get_lat_lon_from_csv(args.input)
 
     generate_map(output, lats, lons)
