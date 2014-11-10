@@ -1,9 +1,9 @@
-PyGeoIpMap
-==========
+# PyGeoIpMap
+
 
 Little Python script to show where IP addresses are coming from by plotting them on a World map
 
-# Requirements
+##Requirements
 * [numpy](http://www.numpy.org/)
 * [matplotlib](http://matplotlib.org/)
 * [Basemap](http://matplotlib.org/basemap/)
@@ -16,7 +16,7 @@ sudo apt install python-numpy python-matplotlib python-mpltoolkits.basemap
 
 Unfortunately, there is no Python3 version of `python-mpltoolkits.basemap` for the moment so this script is Python 2.7+ only.
 
-# Usage
+##Usage
 
 ```
 pygeoipmap.py [-h] [-o OUTPUT] [-f {ip,csv}] input
@@ -36,9 +36,9 @@ optional arguments:
                         Format of the input file.
 ```
 
-# Examples
+##Examples
 
-##Using a list of IP addresses (and the FreeGeoIp web service)
+###Using a list of IP addresses (and the FreeGeoIp web service)
 
 Say you have a list of IP addresses in a file `/tmp/ip.txt` that looks like this:
 
@@ -62,7 +62,7 @@ python pygeoipmap.py /tmp/ip.txt
 
 In that case, the program will use data available from [FreeGeoIp](http://freegeoip.net/) to find the location of each of these IPs and generate a World map in `output.png`.
 
-##Using a CSV file already containing latitude/longitude data
+###Using a CSV file already containing latitude/longitude data
 
 If you already have the latitude/longitude data, you can use the program to generate the World map without connecting to FreeGeoIp. In that case you need a CSV file where the two last columns are latitude and longitude data.
 
