@@ -9,7 +9,9 @@ import numpy
 import csv
 import matplotlib.pyplot as plt
 from mpl_toolkits.basemap import Basemap
+import GeoIP
 
+gi = GeoIP.open("GeoIPCity.dat", GeoIP.GEOIP_STANDARD)
 
 def get_ip(ip_file):
     """
@@ -30,7 +32,6 @@ def get_lat_lon(ip_list=[], lats=[], lons=[]):
     print("Processing {} IPs...".format(len(ip_list)))
     for ip in ip_list:
         r = requests.get("https://freegeoip.net/json/"+ip)
-        #json_response = json.loads(r.content.decode('utf-8'))
         json_response = r.json()
         print("{ip}, {city}, {country_name}, {latitude}, {longitude}".format(**json_response))
         if json_response['latitude'] and json_response['longitude']:
@@ -38,6 +39,22 @@ def get_lat_lon(ip_list=[], lats=[], lons=[]):
             lons.append(json_response['longitude'])
     return lats, lons
 
+def geoip_lat_lon(ip_list=[], lats=[], lons=[]):
+    """
+    This function uses the MaxMind library and databases to geolocate IP addresses
+    a list of IP addresses.
+    Returns two lists (latitude and longitude).
+    """
+    print("Processing {} IPs...".format(len(ip_list)))
+    for ip in ip_list:
+        try:
+            r = gi.record_by_addr(ip)
+        except Exception:
+            print("Unable to locate IP: %s" % ip)
+            continue
+        lats.append(r['latitude'])
+        lons.append(r['longitude'])
+    return lats, lons
 
 def get_lat_lon_from_csv(csv_file, lats=[], lons=[]):
     """
@@ -78,14 +95,15 @@ def main():
     parser.add_argument('input', type=str, help='Input file. One IP per line or, if FORMAT set to \'csv\', CSV formatted file ending with latitude and longitude positions')
     parser.add_argument('-o', '--output', default='output.png', help='Path to save the file (e.g. /tmp/output.png)')
     parser.add_argument('-f', '--format', default='ip', choices=['ip', 'csv'], help='Format of the input file.')
-
+    parser.add_argument('-s', '--service', default='f', choices=['f','m'], help='Geolocation service (f=FreeGeoIP, m=MaxMind local database)')
     args = parser.parse_args()
 
     output = args.output
 
     if args.format == 'ip':
         ip_list = get_ip(args.input)
-        lats, lons = get_lat_lon(ip_list)
+        #lats, lons = get_lat_lon(ip_list)
+        lats, lons = geoip_lat_lon(ip_list)
     elif args.format == 'csv':
         lats, lons = get_lat_lon_from_csv(args.input)
 
