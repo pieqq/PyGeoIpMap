@@ -12,7 +12,7 @@ A Python script to show where IP addresses are coming from by plotting them on a
 PyGeoIpMap can be installed along with its dependencies easily on Ubuntu Linux with the following command:
 
 ```bash
-sudo apt install python-numpy python-matplotlib python-mpltoolkits.basemap
+sudo apt-get install python-numpy python-matplotlib python-mpltoolkits.basemap
 ```
 
 Unfortunately, there is no Python3 version of `python-mpltoolkits.basemap` at the moment.
