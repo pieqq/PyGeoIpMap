@@ -18,7 +18,7 @@ Unfortunately, there is no Python3 version of `python-mpltoolkits.basemap` for t
 
 ##Usage
 
-```
+```bash
 pygeoipmap.py [-h] [-o OUTPUT] [-f {ip,csv}] input
 
 Visualize community on a map.
