@@ -17,8 +17,7 @@ def get_ip(ip_file):
     """
     ip_list = []
     with open(ip_file, 'r') as f:
-        for line in f:
-            ip_list.append(line.strip())
+        ip_list = [line.strip() for line in f]
     return ip_list
 
 
