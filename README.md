@@ -10,7 +10,7 @@ Little Python script to show where IP addresses are coming from by plotting them
 
 You can install these dependencies easily on Ubuntu Linux like this:
 
-```
+```bash
 sudo apt install python-numpy python-matplotlib python-mpltoolkits.basemap
 ```
 
@@ -78,12 +78,12 @@ For instance, here is a `data.csv` file:
 64.27.26.7, Los Angeles, United States, 34.053, -118.2642
 ```
 
-I can then generate the World map in `/tmp/evil_hackers.jpg` with:
+You can then generate the World map in `/tmp/evil_hackers.jpg` with:
 
 ```
 python pygeoipmap.py -o /tmp/evil_hackers.jpg -f csv data.csv
 ```
 
-And I'll get the following output in `/tmp/evil_hackers.jpg`:
+And the following will be output in `/tmp/evil_hackers.jpg`:
 
 ![](http://i.imgur.com/IGIaKDb.jpg)
