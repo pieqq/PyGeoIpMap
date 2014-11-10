@@ -15,7 +15,7 @@ def get_ip(ip_file):
     """
     Returns a list of IP addresses from a file containing one IP per line.
     """
-    ip_list = []
+    #ip_list = []
     with open(ip_file, 'r') as f:
         ip_list = [line.strip() for line in f]
     return ip_list
@@ -30,12 +30,9 @@ def get_lat_lon(ip_list=[], lats=[], lons=[]):
     print("Processing {} IPs...".format(len(ip_list)))
     for ip in ip_list:
         r = requests.get("https://freegeoip.net/json/"+ip)
-        json_response = json.loads(r.content.decode('utf-8'))
-        print("{}, {}, {}, {}, {}".format(json_response['ip'],
-                                          json_response['city'],
-                                          json_response['country_name'],
-                                          json_response['latitude'],
-                                          json_response['longitude']))
+        #json_response = json.loads(r.content.decode('utf-8'))
+        json_response = r.json()
+        print("{ip}, {city}, {country_name}, {latitude}, {longitude}".format(**json_response))
         if json_response['latitude'] and json_response['longitude']:
             lats.append(json_response['latitude'])
             lons.append(json_response['longitude'])
