@@ -1,17 +1,18 @@
-PyGeoIpMap
-==========
+# PyGeoIpMap
 
-Little Python script to show where IP addresses are coming from by plotting them on a World map
 
-# Requirements
+A Python script to show where IP addresses are coming from by plotting them on a World map.
+
+##Requirements
+
 * [numpy](http://www.numpy.org/)
 * [matplotlib](http://matplotlib.org/)
 * [Basemap](http://matplotlib.org/basemap/)
 
-You can install these dependencies easily on Ubuntu Linux like this:
+PyGeoIpMap can be installed along with its dependencies easily on Ubuntu Linux with the following command:
 
-```
-sudo apt install python-numpy python-matplotlib python-mpltoolkits.basemap
+```bash
+sudo apt-get install python-numpy python-matplotlib python-mpltoolkits.basemap
 ```
 
 or using the [Anaconda](http://continuum.io/downloads) distribution:
@@ -21,8 +22,11 @@ conda install numpy matplotlib basemap
 ```
 
 Unfortunately, there is no Python3 version of `python-mpltoolkits.basemap` for the moment so this script is Python 2.7+ only.
+=======
+Unfortunately, there is no Python3 version of `python-mpltoolkits.basemap` at the moment.
+Consequently this script is Python 2.7+ only.
 
-# Usage
+##Usage
 
 ```
 usage: pygeoipmap.py [-h] [-o OUTPUT] [-f {ip,csv}] [-s {f,m}] [-db DB] input
@@ -47,11 +51,18 @@ optional arguments:
                         ./GeoLiteCity.dat)
 ```
 
-# Examples
+##Examples
 
-##Using a list of IP addresses (and the FreeGeoIp web service)
+###Using a list of IP addresses (and the FreeGeoIp web service)
 
-Say you have a list of IP addresses in a file `/tmp/ip.txt` that looks like this:
+A World map can be generated from a list of IP addresses by running the following command:
+
+```bash
+python pygeoipmap.py /tmp/ip.txt
+```
+
+The list of IP address must be saved to a text file with each IP
+address separated by a newline as shown below:
 
 ```
 218.60.148.32
@@ -65,19 +76,17 @@ Say you have a list of IP addresses in a file `/tmp/ip.txt` that looks like this
 …
 ```
 
-Run the following command to generate a map:
+In that example above, the program will use data available from
+[FreeGeoIp](http://freegeoip.net/) to find the location of each IP address and generate a World map called `output.png`.
 
-```
-python pygeoipmap.py /tmp/ip.txt
-```
+###Using a CSV file already containing latitude and longitude data
 
 In that case, the program will use data available from [FreeGeoIp](http://freegeoip.net/) to find the location of each of these IPs and generate a World map in `output.png`. Alternatively, local [MaxMind](http://dev.maxmind.com/geoip/legacy/geolite/) database files can be used with the MaxMind [GeoIP](https://github.com/maxmind/geoip-api-python) library.
 
-##Using a CSV file already containing latitude/longitude data
+PyGeoIpMap can generate a World map without connecting to FreeGeoIp if the latitude and longitude data are available.
+A CSV file where the two last columns are the IP address' corresponding latitude and longitude values.
 
-If you already have the latitude/longitude data, you can use the program to generate the World map without connecting to FreeGeoIp. In that case you need a CSV file where the two last columns are latitude and longitude data.
-
-For instance, here is a `data.csv` file:
+An example of a CSV file with each IP address' latitude and longitude values provided:
 
 ```
 198.23.67.201, Dallas, United States, 32.9299, -96.8353
@@ -89,12 +98,12 @@ For instance, here is a `data.csv` file:
 64.27.26.7, Los Angeles, United States, 34.053, -118.2642
 ```
 
-I can then generate the World map in `/tmp/evil_hackers.jpg` with:
+The World map can be generated from the CSV file by running the following command:
 
-```
+```bash
 python pygeoipmap.py -o /tmp/evil_hackers.jpg -f csv data.csv
 ```
 
-And I'll get the following output in `/tmp/evil_hackers.jpg`:
+PyGeoIpMap will output the World map `/tmp/evil_hackers.jpg` as seen below.
 
-![](http://i.imgur.com/IGIaKDb.jpg)
+![evil_hackers.jpg](http://i.imgur.com/IGIaKDb.jpg)
