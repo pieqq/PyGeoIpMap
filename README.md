@@ -14,6 +14,12 @@ You can install these dependencies easily on Ubuntu Linux like this:
 sudo apt install python-numpy python-matplotlib python-mpltoolkits.basemap
 ```
 
+or using the [Anaconda](http://continuum.io/downloads) distribution:
+
+```
+conda install numpy matplotlib basemap
+```
+
 Unfortunately, there is no Python3 version of `python-mpltoolkits.basemap` for the moment so this script is Python 2.7+ only.
 
 # Usage
@@ -65,7 +71,7 @@ Run the following command to generate a map:
 python pygeoipmap.py /tmp/ip.txt
 ```
 
-In that case, the program will use data available from [FreeGeoIp](http://freegeoip.net/) to find the location of each of these IPs and generate a World map in `output.png`.
+In that case, the program will use data available from [FreeGeoIp](http://freegeoip.net/) to find the location of each of these IPs and generate a World map in `output.png`. Alternatively, local [MaxMind](http://dev.maxmind.com/geoip/legacy/geolite/) database files can be used with the MaxMind [GeoIP](https://github.com/maxmind/geoip-api-python) library.
 
 ##Using a CSV file already containing latitude/longitude data
 
