@@ -19,7 +19,7 @@ Unfortunately, there is no Python3 version of `python-mpltoolkits.basemap` for t
 # Usage
 
 ```
-pygeoipmap.py [-h] [-o OUTPUT] [-f {ip,csv}] input
+usage: pygeoipmap.py [-h] [-o OUTPUT] [-f {ip,csv}] [-s {f,m}] [-db DB] input
 
 Visualize community on a map.
 
@@ -34,6 +34,11 @@ optional arguments:
                         Path to save the file (e.g. /tmp/output.png)
   -f {ip,csv}, --format {ip,csv}
                         Format of the input file.
+  -s {f,m}, --service {f,m}
+                        Geolocation service (f=FreeGeoIP, m=MaxMind local
+                        database)
+  -db DB, --db DB       Full path to MaxMind database file (default =
+                        ./GeoLiteCity.dat)
 ```
 
 # Examples
