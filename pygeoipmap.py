@@ -15,7 +15,6 @@ def get_ip(ip_file):
     """
     Returns a list of IP addresses from a file containing one IP per line.
     """
-    #ip_list = []
     with open(ip_file, 'r') as f:
         ip_list = [line.strip() for line in f]
     return ip_list
@@ -40,7 +39,6 @@ def get_lat_lon(ip_list=[], lats=[], lons=[]):
 def geoip_lat_lon(gi, ip_list=[], lats=[], lons=[]):
     """
     This function uses the MaxMind library and databases to geolocate IP addresses
-    a list of IP addresses.
     Returns two lists (latitude and longitude).
     """
     print("Processing {} IPs...".format(len(ip_list)))
@@ -50,9 +48,10 @@ def geoip_lat_lon(gi, ip_list=[], lats=[], lons=[]):
         except Exception:
             print("Unable to locate IP: %s" % ip)
             continue
-        print("{city}, {country_name}, {latitude}, {longitude}".format(**r))
-        lats.append(r['latitude'])
-        lons.append(r['longitude'])
+        if r is not None:
+            print("%s {city}, {country_name}, {latitude}, {longitude}".format(**r) % ip)
+            lats.append(r['latitude'])
+            lons.append(r['longitude'])
     return lats, lons
 
 def get_lat_lon_from_csv(csv_file, lats=[], lons=[]):
@@ -95,7 +94,7 @@ def main():
     parser.add_argument('-o', '--output', default='output.png', help='Path to save the file (e.g. /tmp/output.png)')
     parser.add_argument('-f', '--format', default='ip', choices=['ip', 'csv'], help='Format of the input file.')
     parser.add_argument('-s', '--service', default='f', choices=['f','m'], help='Geolocation service (f=FreeGeoIP, m=MaxMind local database)')
-    parser.add_argument('-db', '--db', default='.', help='Path to MaxMind database files (default = cwd)')
+    parser.add_argument('-db', '--db', default='./GeoLiteCity.dat', help='Full path to MaxMind database file (default = ./GeoLiteCity.dat)')
     args = parser.parse_args()
 
     output = args.output
@@ -103,7 +102,7 @@ def main():
     if args.format == 'ip':
         ip_list = get_ip(args.input)
         if args.service == 'm':
-            gi = GeoIP.open("%s/GeoIPCity.dat" % args.db, GeoIP.GEOIP_STANDARD)
+            gi = GeoIP.open(args.db, GeoIP.GEOIP_STANDARD)
             lats, lons = geoip_lat_lon(gi, ip_list)
         else:  # default service
             lats, lons = get_lat_lon(ip_list)
