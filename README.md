@@ -22,9 +22,6 @@ conda install numpy matplotlib basemap
 ```
 
 Unfortunately, there is no Python3 version of `python-mpltoolkits.basemap` for the moment so this script is Python 2.7+ only.
-=======
-Unfortunately, there is no Python3 version of `python-mpltoolkits.basemap` at the moment.
-Consequently this script is Python 2.7+ only.
 
 ##Usage
 
