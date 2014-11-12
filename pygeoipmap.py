@@ -7,6 +7,9 @@ import requests
 import json
 import numpy
 import csv
+import matplotlib
+# Anti-Grain Geometry (AGG) backend so PyGeoIpMap can be used 'headless'
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from mpl_toolkits.basemap import Basemap
 
