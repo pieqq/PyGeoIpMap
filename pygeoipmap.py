@@ -52,7 +52,7 @@ def geoip_lat_lon(gi, ip_list=[], lats=[], lons=[]):
             print("Unable to locate IP: %s" % ip)
             continue
         if r is not None:
-            print(u"%s {city}, {country_name}, {latitude}, {longitude}".format(**r) % ip)
+            print("%s {country_code} {latitude}, {longitude}".format(**r) % ip)
             lats.append(r['latitude'])
             lons.append(r['longitude'])
     return lats, lons
