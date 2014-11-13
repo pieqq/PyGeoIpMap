@@ -12,13 +12,12 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from mpl_toolkits.basemap import Basemap
-
+import GeoIP
 
 def get_ip(ip_file):
     """
     Returns a list of IP addresses from a file containing one IP per line.
     """
-    ip_list = []
     with open(ip_file, 'r') as f:
         ip_list = [line.strip() for line in f]
     return ip_list
@@ -33,17 +32,30 @@ def get_lat_lon(ip_list=[], lats=[], lons=[]):
     print("Processing {} IPs...".format(len(ip_list)))
     for ip in ip_list:
         r = requests.get("https://freegeoip.net/json/"+ip)
-        json_response = json.loads(r.content.decode('utf-8'))
-        print("{}, {}, {}, {}, {}".format(json_response['ip'],
-                                          json_response['city'],
-                                          json_response['country_name'],
-                                          json_response['latitude'],
-                                          json_response['longitude']))
+        json_response = r.json()
+        print("{ip}, {region_name}, {country_name}, {latitude}, {longitude}".format(**json_response))
         if json_response['latitude'] and json_response['longitude']:
             lats.append(json_response['latitude'])
             lons.append(json_response['longitude'])
     return lats, lons
 
+def geoip_lat_lon(gi, ip_list=[], lats=[], lons=[]):
+    """
+    This function uses the MaxMind library and databases to geolocate IP addresses
+    Returns two lists (latitude and longitude).
+    """
+    print("Processing {} IPs...".format(len(ip_list)))
+    for ip in ip_list:
+        try:
+            r = gi.record_by_addr(ip)
+        except Exception:
+            print("Unable to locate IP: %s" % ip)
+            continue
+        if r is not None:
+            print("%s {country_code} {latitude}, {longitude}".format(**r) % ip)
+            lats.append(r['latitude'])
+            lons.append(r['longitude'])
+    return lats, lons
 
 def get_lat_lon_from_csv(csv_file, lats=[], lons=[]):
     """
@@ -84,14 +96,19 @@ def main():
     parser.add_argument('input', type=str, help='Input file. One IP per line or, if FORMAT set to \'csv\', CSV formatted file ending with latitude and longitude positions')
     parser.add_argument('-o', '--output', default='output.png', help='Path to save the file (e.g. /tmp/output.png)')
     parser.add_argument('-f', '--format', default='ip', choices=['ip', 'csv'], help='Format of the input file.')
-
+    parser.add_argument('-s', '--service', default='f', choices=['f','m'], help='Geolocation service (f=FreeGeoIP, m=MaxMind local database)')
+    parser.add_argument('-db', '--db', default='./GeoLiteCity.dat', help='Full path to MaxMind database file (default = ./GeoLiteCity.dat)')
     args = parser.parse_args()
 
     output = args.output
 
     if args.format == 'ip':
         ip_list = get_ip(args.input)
-        lats, lons = get_lat_lon(ip_list)
+        if args.service == 'm':
+            gi = GeoIP.open(args.db, GeoIP.GEOIP_STANDARD)
+            lats, lons = geoip_lat_lon(gi, ip_list)
+        else:  # default service
+            lats, lons = get_lat_lon(ip_list)
     elif args.format == 'csv':
         lats, lons = get_lat_lon_from_csv(args.input)
 
