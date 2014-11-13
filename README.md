@@ -16,12 +16,6 @@ PyGeoIpMap can be installed along with its dependencies easily on Ubuntu Linux w
 sudo apt-get install python-numpy python-matplotlib python-mpltoolkits.basemap python-geoip
 ```
 
-or using the [Anaconda](http://continuum.io/downloads) distribution:
-
-```
-conda install numpy matplotlib basemap
-```
-
 Unfortunately, there is no Python3 version of `python-mpltoolkits.basemap` for the moment so this script is Python 2.7+ only.
 
 ##Usage
