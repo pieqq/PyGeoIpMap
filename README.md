@@ -8,11 +8,12 @@ A Python script to show where IP addresses are coming from by plotting them on a
 * [numpy](http://www.numpy.org/)
 * [matplotlib](http://matplotlib.org/)
 * [Basemap](http://matplotlib.org/basemap/)
+* [GeoIp](https://pypi.python.org/pypi/GeoIP)
 
 PyGeoIpMap can be installed along with its dependencies easily on Ubuntu Linux with the following command:
 
 ```bash
-sudo apt-get install python-numpy python-matplotlib python-mpltoolkits.basemap
+sudo apt-get install python-numpy python-matplotlib python-mpltoolkits.basemap python-geoip
 ```
 
 or using the [Anaconda](http://continuum.io/downloads) distribution:
@@ -76,9 +77,13 @@ address separated by a newline as shown below:
 In that example above, the program will use data available from
 [FreeGeoIp](http://freegeoip.net/) to find the location of each IP address and generate a World map called `output.png`.
 
-###Using a CSV file already containing latitude and longitude data
+Alternatively, local [MaxMind](http://dev.maxmind.com/geoip/legacy/geolite/) database files can be used with the MaxMind [GeoIP](https://github.com/maxmind/geoip-api-python) library with the `--service` option:
 
-In that case, the program will use data available from [FreeGeoIp](http://freegeoip.net/) to find the location of each of these IPs and generate a World map in `output.png`. Alternatively, local [MaxMind](http://dev.maxmind.com/geoip/legacy/geolite/) database files can be used with the MaxMind [GeoIP](https://github.com/maxmind/geoip-api-python) library.
+```bash
+python pygeoipmap.py /tmp/ip.txt --service m --db /path/to/GeoLiteCity.dat
+```
+
+###Using a CSV file already containing latitude and longitude data
 
 PyGeoIpMap can generate a World map without connecting to FreeGeoIp if the latitude and longitude data are available.
 A CSV file where the two last columns are the IP address' corresponding latitude and longitude values.
