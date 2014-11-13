@@ -3,6 +3,8 @@
 
 A Python script to show where IP addresses are coming from by plotting them on a World map.
 
+![evil_hackers.jpg](http://i.imgur.com/IGIaKDb.jpg)
+
 ##Requirements
 
 * [numpy](http://www.numpy.org/)
