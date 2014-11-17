@@ -3,9 +3,9 @@
 
 from __future__ import print_function, unicode_literals, with_statement
 import argparse
+import contextlib
 import requests
-import json
-import numpy
+import sys
 import csv
 import matplotlib
 # Anti-Grain Geometry (AGG) backend so PyGeoIpMap can be used 'headless'
@@ -14,13 +14,13 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.basemap import Basemap
 import GeoIP
 
+
 def get_ip(ip_file):
     """
     Returns a list of IP addresses from a file containing one IP per line.
     """
-    with open(ip_file, 'r') as f:
-        ip_list = [line.strip() for line in f]
-    return ip_list
+    with contextlib.closing(ip_file):
+        return [line.strip() for line in ip_file]
 
 
 def get_lat_lon(ip_list=[], lats=[], lons=[]):
@@ -31,13 +31,14 @@ def get_lat_lon(ip_list=[], lats=[], lons=[]):
     """
     print("Processing {} IPs...".format(len(ip_list)))
     for ip in ip_list:
-        r = requests.get("https://freegeoip.net/json/"+ip)
+        r = requests.get("https://freegeoip.net/json/" + ip)
         json_response = r.json()
         print("{ip}, {region_name}, {country_name}, {latitude}, {longitude}".format(**json_response))
         if json_response['latitude'] and json_response['longitude']:
             lats.append(json_response['latitude'])
             lons.append(json_response['longitude'])
     return lats, lons
+
 
 def geoip_lat_lon(gi, ip_list=[], lats=[], lons=[]):
     """
@@ -57,6 +58,7 @@ def geoip_lat_lon(gi, ip_list=[], lats=[], lons=[]):
             lons.append(r['longitude'])
     return lats, lons
 
+
 def get_lat_lon_from_csv(csv_file, lats=[], lons=[]):
     """
     Retrieves the last two rows of a CSV formatted file to use as latitude
@@ -69,11 +71,12 @@ def get_lat_lon_from_csv(csv_file, lats=[], lons=[]):
     219.144.17.74, Xian, China, 34.2583, 108.9286
     64.27.26.7, Los Angeles, United States, 34.053, -118.2642
     """
-    with open(csv_file, 'rb') as f:
-        reader = csv.reader(f)
+    with contextlib.closing(csv_file):
+        reader = csv.reader(csv_file)
         for row in reader:
             lats.append(row[-2])
             lons.append(row[-1])
+
     return lats, lons
 
 
@@ -93,7 +96,9 @@ def generate_map(output, lats=[], lons=[]):
 
 def main():
     parser = argparse.ArgumentParser(description='Visualize community on a map.')
-    parser.add_argument('input', type=str, help='Input file. One IP per line or, if FORMAT set to \'csv\', CSV formatted file ending with latitude and longitude positions')
+    parser.add_argument('-i', '--input', dest="input", type=argparse.FileType('r'),
+            help='Input file. One IP per line or, if FORMAT set to \'csv\', CSV formatted file ending with latitude and longitude positions',
+            default=sys.stdin)
     parser.add_argument('-o', '--output', default='output.png', help='Path to save the file (e.g. /tmp/output.png)')
     parser.add_argument('-f', '--format', default='ip', choices=['ip', 'csv'], help='Format of the input file.')
     parser.add_argument('-s', '--service', default='f', choices=['f','m'], help='Geolocation service (f=FreeGeoIP, m=MaxMind local database)')
@@ -113,6 +118,7 @@ def main():
         lats, lons = get_lat_lon_from_csv(args.input)
 
     generate_map(output, lats, lons)
+
 
 if __name__ == '__main__':
     main()
