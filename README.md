@@ -73,7 +73,9 @@ address separated by a newline as shown below:
 In that example above, the program will use data available from
 [FreeGeoIp](http://freegeoip.net/) to find the location of each IP address and generate a World map called `output.png`.
 
-Alternatively, local [MaxMind](http://dev.maxmind.com/geoip/legacy/geolite/) database files can be used with the MaxMind [GeoIP](https://github.com/maxmind/geoip-api-python) library with the `--service` option:
+###Using a MaxMind offline database
+
+Local [MaxMind](http://dev.maxmind.com/geoip/legacy/geolite/) database files can be used with the MaxMind [GeoIP](https://github.com/maxmind/geoip-api-python) library with the `--service` option:
 
 ```bash
 python pygeoipmap.py /tmp/ip.txt --service m --db /path/to/GeoLiteCity.dat
