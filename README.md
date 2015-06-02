@@ -43,6 +43,8 @@ optional arguments:
                         database)
   -db DB, --db DB       Full path to MaxMind database file (default =
                         ./GeoLiteCity.dat)
+  --extents W/E/S/N     Spatial extents for the figure
+                        (west/east/south/north). Defaults to global.
 ```
 
 ##Examples
@@ -80,6 +82,14 @@ Local [MaxMind](http://dev.maxmind.com/geoip/legacy/geolite/) database files can
 ```bash
 python pygeoipmap.py /tmp/ip.txt --service m --db /path/to/GeoLiteCity.dat
 ```
+
+###Specifying a region for the plot
+
+```bash
+python pygeoipmap.py /tmp/ip.txt --extents=-12/45/30/65 --output=ip.png
+```
+
+This limits the plot to Europe.
 
 ###Using a CSV file already containing latitude and longitude data
 
