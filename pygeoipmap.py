@@ -124,10 +124,7 @@ def main():
     elif args.format == 'csv':
         lats, lons = get_lat_lon_from_csv(args.input)
 
-    if args.extents:
-        generate_map(output, lats, lons, wesn=args.extents)
-    else:
-        generate_map(output, lats, lons)
+    generate_map(output, lats, lons, wesn=args.extents)
 
 
 if __name__ == '__main__':
