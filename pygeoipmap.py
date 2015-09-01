@@ -12,7 +12,7 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from mpl_toolkits.basemap import Basemap
-import GeoIP
+import pygeoip
 
 
 def get_ip(ip_file):
@@ -117,7 +117,7 @@ def main():
     if args.format == 'ip':
         ip_list = get_ip(args.input)
         if args.service == 'm':
-            gi = GeoIP.open(args.db, GeoIP.GEOIP_STANDARD)
+            gi = pygeoip.GeoIP(args.db)
             lats, lons = geoip_lat_lon(gi, ip_list)
         else:  # default service
             lats, lons = get_lat_lon(ip_list)
