@@ -15,7 +15,7 @@ A Python script to show where IP addresses are coming from by plotting them on a
 PyGeoIpMap can be installed along with its dependencies easily on Fedora Linux with the following command:
 
 ```bash
-sudo apt-get install python3-numpy python3-matplotlib python3-basemap python3-pygeoip
+sudo dnf install python3-numpy python3-matplotlib python3-basemap python3-pygeoip
 ```
 
 ##Usage
