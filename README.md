@@ -1,7 +1,7 @@
 # PyGeoIpMap
 
 
-A Python script to show where IP addresses are coming from by plotting them on a World map.
+A Python script to show where IP addresses are coming from by plotting them on a World map. Now compatible with Python3.
 
 ![evil_hackers.jpg](http://i.imgur.com/IGIaKDb.jpg)
 
@@ -10,30 +10,28 @@ A Python script to show where IP addresses are coming from by plotting them on a
 * [numpy](http://www.numpy.org/)
 * [matplotlib](http://matplotlib.org/)
 * [Basemap](http://matplotlib.org/basemap/)
-* [GeoIp](https://pypi.python.org/pypi/GeoIP)
+* [pygeoip](https://pypi.python.org/pypi/pygeoip)
 
-PyGeoIpMap can be installed along with its dependencies easily on Ubuntu Linux with the following command:
+PyGeoIpMap can be installed along with its dependencies easily on Fedora Linux with the following command:
 
 ```bash
-sudo apt-get install python-numpy python-matplotlib python-mpltoolkits.basemap python-geoip
+sudo dnf install python3-numpy python3-matplotlib python3-basemap python3-pygeoip
 ```
-
-Unfortunately, there is no Python3 version of `python-mpltoolkits.basemap` for the moment so this script is Python 2.7+ only.
 
 ##Usage
 
 ```
-usage: pygeoipmap.py [-h] [-o OUTPUT] [-f {ip,csv}] [-s {f,m}] [-db DB] input
+usage: pygeoipmap.py [-h] [-i INPUT] [-o OUTPUT] [-f {ip,csv}] [-s {f,m}]
+                     [-db DB] [--extents EXTENTS]
 
 Visualize community on a map.
 
-positional arguments:
-  input                 Input file. One IP per line or, if FORMAT set to
-                        'csv', CSV formatted file ending with latitude and
-                        longitude positions
-
 optional arguments:
   -h, --help            show this help message and exit
+  -i INPUT, --input INPUT
+                        Input file. One IP per line or, if FORMAT set to
+                        'csv', CSV formatted file ending with latitude and
+                        longitude positions
   -o OUTPUT, --output OUTPUT
                         Path to save the file (e.g. /tmp/output.png)
   -f {ip,csv}, --format {ip,csv}
@@ -54,7 +52,7 @@ optional arguments:
 A World map can be generated from a list of IP addresses by running the following command:
 
 ```bash
-python pygeoipmap.py /tmp/ip.txt
+python3 pygeoipmap.py -i /tmp/ip.txt
 ```
 
 The list of IP address must be saved to a text file with each IP
@@ -75,18 +73,24 @@ address separated by a newline as shown below:
 In that example above, the program will use data available from
 [FreeGeoIp](http://freegeoip.net/) to find the location of each IP address and generate a World map called `output.png`.
 
-###Using a MaxMind offline database
+###Using a MaxMind offline database (Recommended)
 
 Local [MaxMind](http://dev.maxmind.com/geoip/legacy/geolite/) database files can be used with the MaxMind [GeoIP](https://github.com/maxmind/geoip-api-python) library with the `--service` option:
 
 ```bash
-python pygeoipmap.py /tmp/ip.txt --service m --db /path/to/GeoLiteCity.dat
+python3 pygeoipmap.py -i /tmp/ip.txt --service m --db /path/to/GeoLiteCity.dat
+```
+
+You can download and unzip a copy of the latest MaxMind database as follows:
+
+```bash
+wget http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.xz && xz -d GeoLiteCity.dat.xz
 ```
 
 ###Specifying a region for the plot
 
 ```bash
-python pygeoipmap.py /tmp/ip.txt --extents=-12/45/30/65 --output=ip.png
+python3 pygeoipmap.py -i /tmp/ip.txt --extents=-12/45/30/65 --output=ip.png
 ```
 
 This limits the plot to Europe.
@@ -111,7 +115,7 @@ An example of a CSV file with each IP address' latitude and longitude values pro
 The World map can be generated from the CSV file by running the following command:
 
 ```bash
-python pygeoipmap.py -o /tmp/evil_hackers.jpg -f csv data.csv
+python3 pygeoipmap.py -o /tmp/evil_hackers.jpg -f csv data.csv
 ```
 
 PyGeoIpMap will output the World map `/tmp/evil_hackers.jpg` as seen below.
