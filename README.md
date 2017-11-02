@@ -3,9 +3,9 @@
 
 A Python script to show where IP addresses are coming from by plotting them on a World map. Now compatible with Python3.
 
-![evil_hackers.jpg](http://i.imgur.com/IGIaKDb.jpg)
+![screenshot.jpg](https://raw.githubusercontent.com/lgg-awesome/PyGeoIpMap/master/screenshot.jpg)
 
-##Requirements
+## Requirements
 
 * [numpy](http://www.numpy.org/)
 * [matplotlib](http://matplotlib.org/)
@@ -18,7 +18,7 @@ PyGeoIpMap can be installed along with its dependencies easily on Fedora Linux w
 sudo dnf install python3-numpy python3-matplotlib python3-basemap python3-pygeoip
 ```
 
-##Usage
+## Usage
 
 ```
 usage: pygeoipmap.py [-h] [-i INPUT] [-o OUTPUT] [-f {ip,csv}] [-s {f,m}]
@@ -45,9 +45,9 @@ optional arguments:
                         (west/east/south/north). Defaults to global.
 ```
 
-##Examples
+## Examples
 
-###Using a list of IP addresses (and the FreeGeoIp web service)
+### Using a list of IP addresses (and the FreeGeoIp web service)
 
 A World map can be generated from a list of IP addresses by running the following command:
 
@@ -73,7 +73,7 @@ address separated by a newline as shown below:
 In that example above, the program will use data available from
 [FreeGeoIp](http://freegeoip.net/) to find the location of each IP address and generate a World map called `output.png`.
 
-###Using a MaxMind offline database (Recommended)
+### Using a MaxMind offline database (Recommended)
 
 Local [MaxMind](http://dev.maxmind.com/geoip/legacy/geolite/) database files can be used with the MaxMind [GeoIP](https://github.com/maxmind/geoip-api-python) library with the `--service` option:
 
@@ -87,7 +87,7 @@ You can download and unzip a copy of the latest MaxMind database as follows:
 wget http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.xz && xz -d GeoLiteCity.dat.xz
 ```
 
-###Specifying a region for the plot
+### Specifying a region for the plot
 
 ```bash
 python3 pygeoipmap.py -i /tmp/ip.txt --extents=-12/45/30/65 --output=ip.png
@@ -95,7 +95,7 @@ python3 pygeoipmap.py -i /tmp/ip.txt --extents=-12/45/30/65 --output=ip.png
 
 This limits the plot to Europe.
 
-###Using a CSV file already containing latitude and longitude data
+### Using a CSV file already containing latitude and longitude data
 
 PyGeoIpMap can generate a World map without connecting to FreeGeoIp if the latitude and longitude data are available.
 A CSV file where the two last columns are the IP address' corresponding latitude and longitude values.
@@ -120,4 +120,4 @@ python3 pygeoipmap.py -o /tmp/evil_hackers.jpg -f csv data.csv
 
 PyGeoIpMap will output the World map `/tmp/evil_hackers.jpg` as seen below.
 
-![evil_hackers.jpg](http://i.imgur.com/IGIaKDb.jpg)
+![screenshot.jpg](https://raw.githubusercontent.com/lgg-awesome/PyGeoIpMap/master/screenshot.jpg)
