@@ -3,7 +3,7 @@
 
 A Python script to show where IP addresses are coming from by plotting them on a World map. Now compatible with Python3.
 
-![evil_hackers.jpg](http://i.imgur.com/IGIaKDb.jpg)
+![screenshot.jpg](https://raw.githubusercontent.com/lgg-awesome/PyGeoIpMap/master/screenshot.jpg)
 
 ## Requirements
 
@@ -120,4 +120,4 @@ python3 pygeoipmap.py -o /tmp/evil_hackers.jpg -f csv data.csv
 
 PyGeoIpMap will output the World map `/tmp/evil_hackers.jpg` as seen below.
 
-![evil_hackers.jpg](http://i.imgur.com/IGIaKDb.jpg)
+![screenshot.jpg](https://raw.githubusercontent.com/lgg-awesome/PyGeoIpMap/master/screenshot.jpg)
