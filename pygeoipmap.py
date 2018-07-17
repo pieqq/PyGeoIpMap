@@ -23,7 +23,7 @@ def get_ip(ip_file):
         return [line.strip() for line in ip_file]
 
 
-def get_lat_lon(ip_list=[], lats=[], lons=[]):
+def get_lat_lon(api_key, ip_list=[], lats=[], lons=[]):
     """
     This function connects to the FreeGeoIP web service to get info from
     a list of IP addresses.
@@ -31,7 +31,7 @@ def get_lat_lon(ip_list=[], lats=[], lons=[]):
     """
     print("Processing {} IPs...".format(len(ip_list)))
     for ip in ip_list:
-        r = requests.get("https://freegeoip.net/json/" + ip)
+        r = requests.get("http://api.ipstack.com/" + ip + "?access_key=" + api_key)
         json_response = r.json()
         print("{ip}, {region_name}, {country_name}, {latitude}, {longitude}".format(**json_response))
         if json_response['latitude'] and json_response['longitude']:
@@ -106,8 +106,9 @@ def main():
             help='Input file. One IP per line or, if FORMAT set to \'csv\', CSV formatted file ending with latitude and longitude positions',
             default=sys.stdin)
     parser.add_argument('-o', '--output', default='output.png', help='Path to save the file (e.g. /tmp/output.png)')
+    parser.add_argument('-a', '--apikey', help='API-KEY from ipstack.com')
     parser.add_argument('-f', '--format', default='ip', choices=['ip', 'csv'], help='Format of the input file.')
-    parser.add_argument('-s', '--service', default='f', choices=['f','m'], help='Geolocation service (f=FreeGeoIP, m=MaxMind local database)')
+    parser.add_argument('-s', '--service', default='f', choices=['f','m'], help='Geolocation service (f=ipstack, m=MaxMind local database)')
     parser.add_argument('-db', '--db', default='./GeoLiteCity.dat', help='Full path to MaxMind database file (default = ./GeoLiteCity.dat)')
     parser.add_argument('--extents', default=None, help='Extents for the plot (west/east/south/north). Default global.')
     args = parser.parse_args()
@@ -120,7 +121,11 @@ def main():
             gi = pygeoip.GeoIP(args.db)
             lats, lons = geoip_lat_lon(gi, ip_list)
         else:  # default service
-            lats, lons = get_lat_lon(ip_list)
+            if args.apikey:
+                lats, lons = get_lat_lon(args.apikey,ip_list)
+            else:
+                print("You need the API-KEY!!")
+                exit(1)
     elif args.format == 'csv':
         lats, lons = get_lat_lon_from_csv(args.input)
 
