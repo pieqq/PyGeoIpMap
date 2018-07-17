@@ -39,7 +39,7 @@ optional arguments:
   -f {ip,csv}, --format {ip,csv}
                         Format of the input file.
   -s {f,m}, --service {f,m}
-                        Geolocation service (f=FreeGeoIP, m=MaxMind local
+                        Geolocation service (f=ipstack, m=MaxMind local
                         database)
   -db DB, --db DB       Full path to MaxMind database file (default =
                         ./GeoLiteCity.dat)
