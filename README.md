@@ -34,10 +34,12 @@ optional arguments:
                         longitude positions
   -o OUTPUT, --output OUTPUT
                         Path to save the file (e.g. /tmp/output.png)
+  -a APIKEY, --apikey APIKEY
+                        API-KEY from ipstack.com
   -f {ip,csv}, --format {ip,csv}
                         Format of the input file.
   -s {f,m}, --service {f,m}
-                        Geolocation service (f=FreeGeoIP, m=MaxMind local
+                        Geolocation service (f=ipstack, m=MaxMind local
                         database)
   -db DB, --db DB       Full path to MaxMind database file (default =
                         ./GeoLiteCity.dat)
@@ -47,12 +49,14 @@ optional arguments:
 
 ## Examples
 
-### Using a list of IP addresses (and the FreeGeoIp web service)
+### Using a list of IP addresses (and the Ipstack.com web service)
+
+For use this service you need the API-KEY from https://ipstack.com/
 
 A World map can be generated from a list of IP addresses by running the following command:
 
 ```bash
-python3 pygeoipmap.py -i /tmp/ip.txt
+python3 pygeoipmap.py --apikey "YOUR-API-KEY" -i /tmp/ip.txt 
 ```
 
 The list of IP address must be saved to a text file with each IP
