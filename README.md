@@ -10,7 +10,7 @@ A Python script to show where IP addresses are coming from by plotting them on a
 * [numpy](http://www.numpy.org/)
 * [matplotlib](http://matplotlib.org/)
 * [Basemap](http://matplotlib.org/basemap/)
-* [pygeoip](https://pypi.python.org/pypi/pygeoip)
+* [GeoIP2-python](https://github.com/maxmind/GeoIP2-python)
 
 PyGeoIpMap can be installed along with its dependencies easily on Fedora Linux with the following command:
 
@@ -79,7 +79,7 @@ In that example above, the program will use data available from
 
 ### Using a MaxMind offline database (Recommended)
 
-Local [MaxMind](http://dev.maxmind.com/geoip/legacy/geolite/) database files can be used with the MaxMind [GeoIP](https://github.com/maxmind/geoip-api-python) library with the `--service` option:
+Local [MaxMind](https://dev.maxmind.com/geoip/geoip2/geolite2/) database files can be used with the MaxMind [GeoIP](https://github.com/maxmind/GeoIP2-python) library with the `--service` option:
 
 ```bash
 python3 pygeoipmap.py -i /tmp/ip.txt --service m --db /path/to/GeoLiteCity.dat
