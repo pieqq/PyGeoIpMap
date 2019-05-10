@@ -7,3 +7,4 @@ numpy
 pillow
 pygeoip
 requests
+GeoIP2-python
