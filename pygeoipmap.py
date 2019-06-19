@@ -12,8 +12,7 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from mpl_toolkits.basemap import Basemap
-import pygeoip
-
+import geoip2.database
 
 def get_ip(ip_file):
     """
@@ -48,14 +47,14 @@ def geoip_lat_lon(gi, ip_list=[], lats=[], lons=[]):
     print("Processing {} IPs...".format(len(ip_list)))
     for ip in ip_list:
         try:
-            r = gi.record_by_addr(ip)
+            r = gi.city(ip)
         except Exception:
             print("Unable to locate IP: %s" % ip)
             continue
         if r is not None:
-            print("%s {country_code} {latitude}, {longitude}".format(**r) % ip)
-            lats.append(r['latitude'])
-            lons.append(r['longitude'])
+            #print("%s {country_code} {latitude}, {longitude}".format(**r) % ip)
+            lats.append(r.location.latitude)
+            lons.append(r.location.longitude)
     return lats, lons
 
 
@@ -118,7 +117,7 @@ def main():
     if args.format == 'ip':
         ip_list = get_ip(args.input)
         if args.service == 'm':
-            gi = pygeoip.GeoIP(args.db)
+            gi = geoip2.database.Reader(args.db)
             lats, lons = geoip_lat_lon(gi, ip_list)
         else:  # default service
             if args.apikey:
