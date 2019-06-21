@@ -1,7 +1,3 @@
-# DEPRECATED (June 2019)
-
-I no longer maintain this project as of June 2019. Being a MIT licensed project, feel free to clone it and update it to suit your needs, but I'll no longer accept pull requests.
-
 # PyGeoIpMap
 
 
