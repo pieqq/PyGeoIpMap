@@ -12,10 +12,10 @@ A Python script to show where IP addresses are coming from by plotting them on a
 * [Basemap](http://matplotlib.org/basemap/)
 * [GeoIP2-python](https://github.com/maxmind/GeoIP2-python)
 
-PyGeoIpMap can be installed along with its dependencies easily on Fedora Linux with the following command:
+PyGeoIpMap can be installed along with its dependencies easily on ubuntu / mint / etc with the following command:
 
 ```bash
-sudo dnf install python3-numpy python3-matplotlib python3-basemap python3-pygeoip
+sudo apt install python3-numpy python3-matplotlib libgeos-dev python3-geoip2 python3-mpltoolkits.basemap
 ```
 
 ## Usage
