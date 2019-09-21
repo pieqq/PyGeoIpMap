@@ -51,10 +51,12 @@ def geoip_lat_lon(gi, ip_list=[], lats=[], lons=[]):
         except Exception:
             print("Unable to locate IP: %s" % ip)
             continue
-        if r is not None:
-            #print("%s {country_code} {latitude}, {longitude}".format(**r) % ip)
-            lats.append(r.location.latitude)
-            lons.append(r.location.longitude)
+        if r is None or r.location.latitude is None or r.location.longitude is None:
+            print("Unable to find lat/long for IP: %s" % ip)
+            continue
+        #print("%s {country_code} {latitude}, {longitude}".format(**r) % ip)
+        lats.append(r.location.latitude)
+        lons.append(r.location.longitude)
     return lats, lons
 
 
